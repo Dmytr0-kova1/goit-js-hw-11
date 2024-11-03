@@ -16,14 +16,25 @@ function querySearch(event) {
     event.preventDefault();
     loader.style.display = "block";
 
-    const inputVal = event.target.elements.query;
-   
-    fetchData(inputVal.value)
+    const inputVal = event.target.elements.query.value.trim();
+
+    if (inputVal === "") {
+          iziToast.show({
+            title: "Error",
+            message:  "Sorry, you need to enter data for the request. Please try again!",
+            position: "topRight",
+            color: "red"
+          })
+        loader.style.display = "none";
+
+    } else {
+
+    fetchData(inputVal)
         .then((response) => {
             if (response.hits.length === 0) {
                 iziToast.show({
             title: "Error",
-            message:  " Sorry, there are no images matching your search query. Please try again!",
+            message:  "Sorry, there are no images matching your search query. Please try again!",
             position: "topRight",
             color: "red"
                 })
@@ -51,4 +62,5 @@ function querySearch(event) {
                 color: "red"
             })
         })
+    }
 }
